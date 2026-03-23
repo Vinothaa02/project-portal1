@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Mentor Allocation - Student Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c37ad;
+      --secondary: #a1a7c9;
+      --accent: #d1d9ff;
+      --background: #F8F9FC;
+      --text-dark: #2E2E2E;
+      --text-light: #fff;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--background);
+      color: var(--text-dark);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 20px 40px;
+      margin-bottom: 35px;
+      box-shadow: 0 10px 15px -3px rgba(44, 55, 173, 0.1);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      box-shadow: 0 4px 6px rgba(44, 55, 173, 0.2);
+    }
+
+    .brand-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .more-options-btn {
+      background: var(--primary);
+      color: var(--text-light);
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .more-options-btn:hover {
+      background: var(--secondary);
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 50px;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      border: none;
+      box-shadow: 0 20px 25px -5px rgba(44, 55, 173, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .mentor-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+        border-bottom: 1.5px dashed var(--accent);
+    }
+
+    .mentor-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: var(--background);
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--primary);
+    }
+
+    .mentor-name { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 0; }
+    .mentor-title { font-size: 1rem; color: var(--secondary); font-weight: 500; }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .detail-item {
+        background: #fcfcfd;
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px solid #f0f0f5;
+    }
+
+    .detail-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); margin-bottom: 5px; }
+    .detail-value { font-size: 1.05rem; font-weight: 600; color: var(--text-dark); }
+
+    .dropdown-menu { border-radius: 15px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 10px; }
+    .dropdown-item { border-radius: 8px; padding: 10px 15px; font-weight: 500; }
+    .dropdown-item:hover { background: var(--background); color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div class="top-header">
+    <div class="brand-section">
+      <div class="brand-avatar"><i class="fas fa-graduation-cap"></i></div>
+      <span class="brand-text">Student Hub</span>
+    </div>
+
+    <div class="dropdown">
+      <button class="more-options-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <i class="fas fa-user-circle"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="{% url 'stu_dash' %}"><i class="fas fa-home me-2"></i>Dashboard</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item text-danger fw-bold" href="{% url 'logout' %}">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="result-card">
+        <h2 class="mb-4 fw-bold" style="color:var(--primary)">Mentor Allocation Result</h2>
+        
+        {% if allocation %}
+        <div class="mentor-info">
+            <div class="mentor-avatar"><i class="fas fa-user-tie"></i></div>
+            <div>
+                <h3 class="mentor-name">{{ allocation.mentor_name }}</h3>
+                <span class="mentor-title">Your Assigned Project Mentor</span>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="detail-label">Project Domain</div>
+                <div class="detail-value">{{ allocation.team_domain }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Mentor Domain</div>
+                <div class="detail-value">{{ allocation.mentor_domain }}</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Compatibility</div>
+                <div class="detail-value">{{ allocation.similarity_score }}% Match</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Allocated On</div>
+                <div class="detail-value">{{ allocation.allocated_at|date:"M d, Y"|default:"N/A" }}</div>
+            </div>
+        </div>
+
+        <div class="mt-4 p-3 rounded-4 bg-light">
+            <h6 class="fw-bold mb-2"><i class="fas fa-info-circle me-2"></i>Allocation Context</h6>
+            <p class="mb-0 text-muted small">{{ allocation.reason }}</p>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-hourglass-half fa-3x opacity-20 mb-3"></i>
+            <p class="fw-bold text-muted">Allocation is currently in progress. Please check back later.</p>
+        </div>
+        {% endif %}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

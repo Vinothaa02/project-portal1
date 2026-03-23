@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Hub - Modern Dashboard</title>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#2c37ad;
+  --secondary:#a1a7c9;
+  --accent:#d1d9ff;
+  --background:#F8F9FC;
+  --text-dark:#2E2E2E;
+  --text-light:#fff;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:Montserrat,sans-serif;
+  background:linear-gradient(120deg,var(--background),#fff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.dashboard-wrapper{
+  width:95%;
+  max-width:1400px;
+  height:90vh;
+  background:var(--primary);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:280px;
+  padding:30px 20px;
+  background:linear-gradient(180deg,var(--primary),var(--secondary));
+  color:var(--text-light);
+}
+
+.sidebar-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:25px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(255,255,255,.2);
+}
+
+.sidebar-header h4{
+  margin:0;
+  color:var(--accent);
+  font-weight:600;
+}
+
+.sidebar-nav .nav-item{
+  display:flex;
+  align-items:center;
+  padding:14px 18px;
+  margin-bottom:12px;
+  border-radius:12px;
+  text-decoration:none;
+  color:var(--text-light);
+  transition:.25s;
+  cursor:pointer;
+}
+
+.sidebar-nav .nav-item i{
+  margin-right:14px;
+}
+
+.sidebar-nav .nav-item:hover{
+  background:rgba(255,255,255,.15);
+  transform:translateX(6px);
+}
+
+.sidebar-nav .nav-item.active{
+  background:linear-gradient(90deg,var(--accent),var(--secondary));
+  color:#000;
+  font-weight:600;
+}
+
+/* MAIN */
+.main-content{
+  flex:1;
+  padding:30px;
+  background:var(--background);
+  overflow:auto;
+  position: relative;
+}
+
+/* TOP HEADER */
+.top-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.user-greeting{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.profile-avatar{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:var(--secondary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:1.4rem;
+}
+
+.welcome-text{
+  font-size:1.5rem;
+  font-weight:600;
+}
+
+/* DROPDOWN BUTTON */
+.more-options-btn{
+  background:var(--primary);
+  color:var(--text-light);
+  border:none;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.more-options-btn:hover{
+  background:var(--secondary);
+}
+
+/* GRID */
+.content-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+}
+
+/* CARDS */
+.main-card{
+  position:relative;
+  padding:25px;
+  border-radius:16px;
+  color:var(--text-light);
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+  transition:.3s;
+}
+
+.main-card:hover{
+  transform:translateY(-6px);
+}
+
+.main-card i{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:2rem;
+  opacity:.15;
+}
+
+.gradient-purple{background:linear-gradient(135deg,var(--primary),var(--secondary));}
+.gradient-pink{background:linear-gradient(135deg,var(--accent),var(--secondary)); color:#000;}
+.gradient-mixed{background:linear-gradient(135deg,var(--secondary),var(--primary));}
+
+/* BUTTON */
+.glass-button{
+  background:var(--accent);
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:600;
+  color:#000;
+  text-decoration:none;
+  transition:.3s;
+  display:inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.glass-button:hover{
+  background:var(--primary);
+  color:#fff;
+}
+
+/* ANNOUNCEMENTS */
+.announcement-box{
+  background:rgba(255,255,255,.15);
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:10px;
+  position: relative;
+}
+
+.announcement-box.unread{
+  border-left: 4px solid var(--accent);
+}
+
+.announcement-box.read{
+  border-left: 4px solid #28a745;
+  opacity: 0.8;
+}
+
+.announcement-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.announcement-title{
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+  flex: 1;
+}
+
+.announcement-type{
+  background: rgba(255,255,255,.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.announcement-preview{
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.announcement-meta{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.deadline-badge{
+  background: rgba(255,255,255,.2);
+  padding: 4px 10px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-icon{
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon.acknowledged{
+  background: #28a745;
+  color: white;
+}
+
+.status-icon.pending{
+  background: rgba(255,255,255,.3);
+  color: white;
+}
+
+/* SLIDE PANEL */
+.slide-panel {
+  position: fixed;
+  top: 0;
+  right: -450px;
+  width: 400px;
+  height: 100vh;
+  background: white;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-panel.active {
+  right: 0;
+}
+
+.slide-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.slide-panel-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slide-panel-header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 25px;
+  position: relative;
+}
+
+.slide-panel-header h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding-right: 40px;
+}
+
+.slide-panel-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.slide-panel-close:hover {
+  background: rgba(255,255,255,0.3);
+  transform: rotate(90deg);
+}
+
+.slide-panel-body {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.panel-type-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.panel-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin-bottom: 25px;
+}
+
+.panel-meta-grid {
+  display: grid;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.panel-meta-item {
+  background: var(--background);
+  padding: 15px;
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+}
+
+.panel-meta-label {
+  font-size: 0.75rem;
+  color: var(--secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.panel-meta-value {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.slide-panel-footer {
+  padding: 20px 25px;
+  background: var(--background);
+  border-top: 1px solid #e0e0e0;
+}
+
+.acknowledge-form {
+  margin: 0;
+}
+
+.acknowledge-btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.acknowledge-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(44, 55, 173, 0.3);
+}
+
+.acknowledge-btn.acknowledged {
+  background: #28a745;
+  cursor: default;
+}
+
+.acknowledge-btn.acknowledged:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.back-to-dashboard {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.back-to-dashboard:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* SETTINGS */
+.settings-card{
+  max-width:500px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.footer{
+  margin-top:25px;
+  text-align:center;
+  font-size:.9rem;
+  border-top:1px solid #ddd;
+  padding-top:12px;
+}
+
+/* Scrollbar styling */
+.announcement-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.announcement-list::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+
+.announcement-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+
+.slide-panel-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.slide-panel-body::-webkit-scrollbar-track {
+  background: var(--background);
+  border-radius: 4px;
+}
+
+.slide-panel-body::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+.menu-toggle{
+  display:none;
+}
+
+@media(max-width:768px){
+
+.menu-toggle{
+  display:block;
+}
+
+.sidebar{
+  position:fixed;
+  left:-280px;
+  top:0;
+  height:100%;
+  z-index:1050;
+  transition:0.3s;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+}
+#settingsView .content-grid{
+  display:flex;
+  justify-content:center;
+}
+
+#settingsView .main-card{
+  max-width:720px;
+  width:100%;
+}
+
+</style>
+</head>
+
+<body>
+<div class="dashboard-wrapper">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-header d-flex align-items-center">
+      <button class="menu-toggle me-2" onclick="toggleSidebar()">
+       <i class="fas fa-bars"></i>
+      </button>
+      
+
+      <h4 class="m-0">
+        <i class="fas fa-graduation-cap me-2"></i>Student Hub
+      </h4>
+
+    </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-item active" id="overviewLink"><i class="fas fa-home"></i>Overview</a>
+    <a href="{% url 'zero_stu' %}" class="nav-item"><i class="fas fa-trophy"></i>Reviews</a>
+    <a href="#" class="nav-item"><i class="fas fa-chart-line"></i>Reports</a>
+    <a href="#" id="settingsLink" class="nav-item"><i class="fas fa-cog"></i>Settings</a>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<!-- DASHBOARD VIEW -->
+<div id="dashboardView">
+
+  <!-- TOP HEADER -->
+  <div class="top-header">
+    <!-- MENU BUTTON -->
+   <button id="topMenuBtn" class="menu-toggle me-2" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+   </button>
+    <div class="user-greeting">
+      <div class="profile-avatar">{{ student_name|slice:":1" }}</div>
+      <div class="welcome-text">Welcome, {{ student_name }}!</div>
+    </div>
+
+    <div class="dropdown">
+      <button class="more-options-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <i class="fas fa-user-circle"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#"><i class="fas fa-id-badge me-2"></i>Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item text-danger fw-bold" href="{% url 'logout' %}">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="content-grid">
+
+    <div class="main-card gradient-purple">
+      <i class="fas fa-users-cog"></i>
+      <h6>Create Team</h6>
+      <p>Launch your project setup.</p>
+      <a href="{% url 'create_team' %}" class="glass-button">Start</a>
+    </div>
+
+    <div class="main-card gradient-pink">
+      <i class="fas fa-globe"></i>
+      <h6>Modify Domains</h6>
+      <p>Update your project domain.</p>
+      <a href="{% url 'create_team' %}" class="glass-button">Update</a>
+    </div>
+
+    <div class="main-card gradient-mixed">
+      <i class="fas fa-chalkboard-teacher"></i>
+      <h6>Mentor Connect</h6>
+      <p>View mentor allocation.</p>
+      <a href="{% url 'student_mentor' %}" class="glass-button">View</a>
+    </div>
+
+    <div class="main-card gradient-purple">
+      <i class="fas fa-bell"></i>
+      <h6>Announcements</h6>
+      <div class="announcement-list" style="max-height:200px; overflow:auto;">
+        {% for status in announcements %}
+          <div class="announcement-box {% if status.acknowledged_at %}read{% else %}unread{% endif %}">
+            <div class="announcement-header">
+              <h6 class="announcement-title">{{ status.announcement.title }}</h6>
+              <span class="announcement-type">{{ status.announcement.ann_type|title }}</span>
+            </div>
+            <p class="announcement-preview">{{ status.announcement.description|truncatewords:8 }}</p>
+            <div class="announcement-meta">
+              {% if status.announcement.deadline_date %}
+                <div class="deadline-badge">
+                  <i class="fas fa-clock"></i>
+                  <span>{{ status.announcement.deadline_date }}</span>
+                </div>
+              {% else %}
+                <div class="deadline-badge">
+                  <i class="fas fa-calendar"></i>
+                  <span>{{ status.announcement.created_at|date:"M d" }}</span>
+                </div>
+              {% endif %}
+              <div class="status-icon {% if status.acknowledged_at %}acknowledged{% else %}pending{% endif %}">
+                {% if status.acknowledged_at %}
+                  <i class="fas fa-check"></i>
+                {% else %}
+                  <i class="fas fa-bell"></i>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-light">No announcements</p>
+        {% endfor %}
+      </div>
+      <button class="glass-button mt-3" onclick="openAnnouncementsPanel()" style="width: 100%; text-align: center;">
+        <i class="fas fa-eye me-2"></i>View Announcements
+      </button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © 2025 Project Portal. All Rights Reserved.
+  </div>
+</div>
+
+<!-- SLIDE PANEL FOR ANNOUNCEMENTS -->
+<div class="slide-panel-overlay" id="slideOverlay" onclick="closeAnnouncementsPanel()"></div>
+<div class="slide-panel" id="announcementsPanel">
+  <div class="slide-panel-header">
+    <h4><i class="fas fa-bullhorn me-2"></i>All Announcements</h4>
+    <button class="slide-panel-close" onclick="closeAnnouncementsPanel()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div class="slide-panel-body" id="panelBody">
+    {% for status in announcements %}
+      <div class="announcement-detail-card mb-4" id="announcement-{{ status.id }}">
+        <span class="panel-type-badge">{{ status.announcement.ann_type|title }}</span>
+        <h5 style="color: var(--primary); margin-bottom: 15px; font-weight: 600;">{{ status.announcement.title }}</h5>
+        
+        <p class="panel-description">{{ status.announcement.description }}</p>
+        
+        <div class="panel-meta-grid">
+          <div class="panel-meta-item">
+            <div class="panel-meta-label">Posted On</div>
+            <div class="panel-meta-value">{{ status.announcement.created_at|date:"F d, Y" }}</div>
+          </div>
+          
+          {% if status.announcement.deadline_date %}
+          <div class="panel-meta-item">
+            <div class="panel-meta-label">Deadline</div>
+            <div class="panel-meta-value">
+              {{ status.announcement.deadline_date }}
+              {% if status.announcement.deadline_time %}at {{ status.announcement.deadline_time }}{% endif %}
+            </div>
+          </div>
+          {% endif %}
+          
+          {% if status.acknowledged_at %}
+          <div class="panel-meta-item" style="border-left-color: #28a745;">
+            <div class="panel-meta-label" style="color: #28a745;">Acknowledged On</div>
+            <div class="panel-meta-value">{{ status.acknowledged_at|date:"F d, Y H:i" }}</div>
+          </div>
+          {% endif %}
+        </div>
+        
+        {% if not status.acknowledged_at %}
+        <form method="post" action="{% url 'ack_announcement' status.id %}" class="acknowledge-form">
+          {% csrf_token %}
+          <button type="submit" class="acknowledge-btn">
+            <i class="fas fa-check-circle"></i>
+            <span>Acknowledge Announcement</span>
+          </button>
+        </form>
+        {% else %}
+        <button class="acknowledge-btn acknowledged" disabled>
+          <i class="fas fa-check-double"></i>
+          <span>Acknowledged</span>
+        </button>
+        {% endif %}
+        
+        {% if not forloop.last %}
+        <hr style="margin: 25px 0; border-color: #e0e0e0;">
+        {% endif %}
+      </div>
+    {% empty %}
+      <div class="text-center py-5">
+        <i class="fas fa-inbox" style="font-size: 3rem; color: var(--secondary); margin-bottom: 15px;"></i>
+        <p style="color: var(--secondary);">No announcements available</p>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="slide-panel-footer">
+    <button class="back-to-dashboard" onclick="closeAnnouncementsPanel()">
+      <i class="fas fa-arrow-left"></i>
+      Back to Dashboard
+    </button>
+  </div>
+</div>
+
+<div id="settingsView" style="display:none;">
+
+<div class="top-header mb-4">
+
+  <div class="user-greeting">
+    <div class="profile-avatar">
+      {{ student_name|slice:":1" }}
+    </div>
+
+    <div>
+      <div class="welcome-text">Account Settings</div>
+      <small style="color: var(--secondary);">
+      Update your profile and password
+      </small>
+    </div>
+  </div>
+
+</div>
+
+<div class="content-grid">
+
+<!-- COMBINED PROFILE + PASSWORD CARD -->
+<div class="main-card gradient-purple">
+  
+
+  <i class="fas fa-user-cog"></i>
+
+  <h6 class="mb-3">Student Profile</h6>
+
+  <p><strong>ID:</strong> {{ student_id }}</p>
+  <p class="mb-4"><strong>Name:</strong> {{ student_name }}</p>
+
+  <hr style="border-color: rgba(255,255,255,0.3);">
+
+  <h6 class="mt-3 mb-3">Change Password</h6>
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="reset_password">
+
+    <div class="mb-2">
+      <input type="password" class="form-control" name="new_password" placeholder="New Password" required>
+    </div>
+
+    <div class="mb-2">
+      <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
+    </div>
+
+    <button type="submit" class="glass-button w-100 mt-2">
+      Update Password
+    </button>
+  </form>
+
+  {% if password_updated %}
+  <div class="alert alert-success mt-3">
+    Password updated successfully!
+  </div>
+  {% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const dashboard = document.getElementById('dashboardView');
+const settings = document.getElementById('settingsView');
+const settingsLink = document.getElementById('settingsLink');
+const overviewLink = document.getElementById('overviewLink');
+const backBtn = document.getElementById('backBtn');
+const overviewLink = document.getElementById('overviewLink');
+
+function showDashboard() {
+  settings.style.display = 'none';
+  dashboard.style.display = 'block';
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  overviewLink.classList.add('active');
+}
+
+function showSettings() {
+  dashboard.style.display = 'none';
+  settings.style.display = 'block';
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  settingsLink.classList.add('active');
+}
+
+settingsLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  showSettings();
+});
+overviewLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  settings.style.display='none';
+  dashboard.style.display='block';
+});
+
+overviewLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  showDashboard();
+});
+
+backBtn.addEventListener('click', showDashboard);
+
+// Slide Panel Functions
+function openAnnouncementsPanel() {
+  document.getElementById('announcementsPanel').classList.add('active');
+  document.getElementById('slideOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAnnouncementsPanel() {
+  document.getElementById('announcementsPanel').classList.remove('active');
+  document.getElementById('slideOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close panel on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeAnnouncementsPanel();
+  }
+});
+function toggleSidebar(){
+
+  const sidebar = document.querySelector(".sidebar");
+  const menuBtn = document.getElementById("topMenuBtn");
+
+  sidebar.classList.toggle("active");
+
+  if(sidebar.classList.contains("active")){
+      menuBtn.style.display="none";   // sidebar open → menu hide
+  }else{
+      menuBtn.style.display="block";  // sidebar close → menu show
+  }
+
+}
+</script>
+</body>
+</html>
